@@ -1,0 +1,127 @@
+version: '3.8'
+
+x-app-config: &app-config
+  deploy:
+    replicas: 3
+  restart: always
+  environment:
+    - REDIS_URL=redis://redis:6379
+    - DB_URL=postgres://user:password@postgres:5432/ferrox
+    - KAFKA_BROKER=kafka:29092
+  depends_on:
+    - redis
+    - postgres
+    - kafka
+
+services:
+  # --- Infrastructure ---
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3030:3000"
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  redis-exporter:
+    image: oliver006/redis_exporter
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      - DATA_SOURCE_NAME=postgresql://user:password@postgres:5432/ferrox?sslmode=disable
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+
+  postgres:
+    image: postgres:15-alpine
+    command: postgres -c max_connections=30000 -c shared_buffers=4GB
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ferrox
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  haproxy:
+    image: haproxy:2.8-alpine
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports:
+      - "13000:13000"
+      - "18000:18000"
+      - "18080:18080"
+      - "18081:18081"
+      - "18082:18082"
+    depends_on:
+      - ferrox-node
+      - ferrox-py
+      - ferrox-rust
+      - ferrox-java
+      - ferrox-php
+
+  test-runner:
+    image: node:20-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: tail -f /dev/null
+    depends_on:
+      - haproxy
+
+  # --- Ferrox Services ---
+  ferrox-node:
+    build: ./node
+    <<: *app-config
+
+  ferrox-py:
+    build: ./python
+    <<: *app-config
+
+  ferrox-rust:
+    build: ./rust
+    <<: *app-config
+
+  ferrox-java:
+    build: ./java
+    <<: *app-config
+
+  ferrox-php:
+    build: ./php
+    <<: *app-config

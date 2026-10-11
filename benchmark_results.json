@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ferrox-node",
+    "reqPerSec": 456.39,
+    "latencyAvg": 4266.9,
+    "p99": 10134,
+    "errors": 0,
+    "timeouts": 0
+  },
+  {
+    "name": "ferrox-py",
+    "reqPerSec": 1230.41,
+    "latencyAvg": 1599.33,
+    "p99": 2431,
+    "errors": 0,
+    "timeouts": 0
+  },
+  {
+    "name": "ferrox-rust",
+    "reqPerSec": 364.32,
+    "latencyAvg": 5087.29,
+    "p99": 10420,
+    "errors": 0,
+    "timeouts": 0
+  },
+  {
+    "name": "ferrox-java",
+    "reqPerSec": 1180.29,
+    "latencyAvg": 1681.87,
+    "p99": 6039,
+    "errors": 0,
+    "timeouts": 0
+  },
+  {
+    "name": "ferrox-php",
+    "reqPerSec": 1200.29,
+    "latencyAvg": 1649.41,
+    "p99": 4396,
+    "errors": 0,
+    "timeouts": 0
+  }
+]

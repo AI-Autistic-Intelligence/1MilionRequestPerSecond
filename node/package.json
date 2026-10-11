@@ -1,0 +1,11 @@
+{
+  "name": "ferrox-node-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "fastify": "^4.26.2",
+    "ioredis": "^5.3.2",
+    "pg": "^8.11.3",
+    "prom-client": "^15.1.3"
+  }
+}

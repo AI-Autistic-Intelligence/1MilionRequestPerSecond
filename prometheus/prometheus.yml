@@ -1,0 +1,46 @@
+global:
+  scrape_interval: 2s
+
+scrape_configs:
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'ferrox-node'
+    dns_sd_configs:
+      - names: ['ferrox-node']
+        type: 'A'
+        port: 13000
+
+  - job_name: 'ferrox-py'
+    dns_sd_configs:
+      - names: ['ferrox-py']
+        type: 'A'
+        port: 18000
+
+  - job_name: 'ferrox-rust'
+    dns_sd_configs:
+      - names: ['ferrox-rust']
+        type: 'A'
+        port: 18080
+
+  - job_name: 'ferrox-java'
+    metrics_path: '/actuator/prometheus'
+    dns_sd_configs:
+      - names: ['ferrox-java']
+        type: 'A'
+        port: 18081
+
+  - job_name: 'ferrox-php'
+    dns_sd_configs:
+      - names: ['ferrox-php']
+        type: 'A'
+        port: 18082

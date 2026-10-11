@@ -1,0 +1,10 @@
+node_modules
+node_modules/
+**/node_modules/
+.env
+.DS_Store
+target/
+.php_cs.cache
+vendor/
+.pytest_cache/
+__pycache__/
