@@ -7,8 +7,8 @@
     "errors": 620,
     "timeouts": 620,
     "telemetryEvents": 10050,
-    "startTs": 1791749373,
-    "endTs": 1791749373
+    "startTs": 1791748945,
+    "endTs": 1791749020
   },
   {
     "name": "ferrox-py",
@@ -18,40 +18,40 @@
     "errors": 0,
     "timeouts": 0,
     "telemetryEvents": 0,
-    "startTs": 1791749373,
-    "endTs": 1791749373
+    "startTs": 1791749025,
+    "endTs": 1791749099
   },
   {
     "name": "ferrox-rust",
-    "reqPerSec": 8460.02,
-    "latencyAvg": 247.28,
-    "p99": 800,
-    "errors": 0,
-    "timeouts": 0,
-    "telemetryEvents": 10000,
-    "startTs": 1791749373,
-    "endTs": 1791749373
+    "reqPerSec": 0,
+    "latencyAvg": 0,
+    "p99": 0,
+    "errors": 61764,
+    "timeouts": 61760,
+    "telemetryEvents": 0,
+    "startTs": 1791749104,
+    "endTs": 1791750720
   },
   {
     "name": "ferrox-java",
-    "reqPerSec": 3574.49,
-    "latencyAvg": 561.31,
-    "p99": 779,
-    "errors": 0,
-    "timeouts": 0,
-    "telemetryEvents": 60000,
-    "startTs": 1791749373,
-    "endTs": 1791749373
+    "reqPerSec": 2082.28,
+    "latencyAvg": 16730.76,
+    "p99": 32306,
+    "errors": 21221,
+    "timeouts": 15640,
+    "telemetryEvents": 40835,
+    "startTs": 1791750725,
+    "endTs": 1791750800
   },
   {
     "name": "ferrox-php",
-    "reqPerSec": 10127.87,
-    "latencyAvg": 201.85,
-    "p99": 1381,
+    "reqPerSec": 22722.79,
+    "latencyAvg": 1495.22,
+    "p99": 5553,
     "errors": 0,
     "timeouts": 0,
-    "telemetryEvents": 10000,
-    "startTs": 1791749373,
-    "endTs": 1791749373
+    "telemetryEvents": 10093,
+    "startTs": 1791750805,
+    "endTs": 1791750878
   }
 ]
